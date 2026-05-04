@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import AboutReveal from './AboutReveal';
+import Testimonials3D from './Testimonials3D';
 
 const INTRO_ITEMS = [
   {
@@ -175,31 +176,7 @@ export default function LegacySections() {
         </div>
       </section>
 
-      {/* ── REVIEWS ── */}
-      <section id="reviews">
-        <div className="reviews-header fade-in">
-          <h2>CUSTOMER THOUGHTS</h2>
-        </div>
-        <div className="reviews-track" id="reviewsTrack">
-          {[
-            { quote: '"We are thrilled with the product provided by Elyx. They captured our aesthetic beautifully, highlighting unique features and enhancing their appeal in every detail."', name: 'Michael T.', role: 'Marketing Manager, Stellar Designs' },
-            { quote: '"Our product images have never looked better! They have a keen eye for detail and a talent for capturing our brand in the best possible light."', name: 'Aurora Jensen', role: 'Marketing Director' },
-            { quote: '"Exceptional service for our latest collection. Their attention to detail and creative approach resulted in images that perfectly showcased our products. Highly recommended!"', name: 'G. Monroe', role: 'Marketing Manager, Stellar Designs' },
-            { quote: '"A fantastic experience! They brought professionalism and creativity that truly set our brand apart. We look forward to working with them again in the future!"', name: 'Michael', role: 'MD, Stellar Designs' },
-            { quote: '"The quality exceeded our expectations. Every piece from Elyx feels like it was made specifically for us. The craftsmanship is unmatched in today\'s market."', name: 'Sarah K.', role: 'Creative Director, Luxe Brand' },
-          ].map((r, i) => (
-            <div className="review-card" key={i}>
-              <p className="review-quote">{r.quote}</p>
-              <div className="review-divider" />
-              <div className="review-name">{r.name}</div>
-              <div className="review-role">{r.role}</div>
-              <div className="review-stars">
-                {[...Array(5)].map((_, s) => <div className="star" key={s} />)}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+      <Testimonials3D />
 
       <AboutReveal />
 
