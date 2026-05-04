@@ -824,88 +824,65 @@ nav {
   clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
 }
 
-/* ─── ABOUT / 3D CUBE ─── */
-#about {
+/* ─── ABOUT / EDITORIAL ─── */
+#about.editorial-about {
   background: var(--white);
-  min-height: 300vh;
-  position: relative;
+  padding: 160px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.about-sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.about-content {
+  max-width: 900px;
+  text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 60px;
-  overflow: hidden;
+  gap: 32px;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
-.about-title {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 500;
-  font-size: clamp(48px, 8vw, 96px);
-  letter-spacing: 0.05em;
-  color: var(--dark);
-  z-index: 2;
+.about-content.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
-.cube-scene {
-  perspective: 2400px;
-  width: 280px;
-  height: 480px;
-  position: relative;
-}
-.cube-wrapper {
-  width: 100%; height: 100%;
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.05s linear;
-}
-.cube-face {
-  position: absolute;
-  width: 280px;
-  height: 480px;
-  background: var(--dark);
-  border: 1px solid #262626;
-  border-radius: 4px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 48px 20px;
-  backface-visibility: hidden;
-}
-.cube-face-front  { transform: translateZ(140px); }
-.cube-face-back   { transform: translateZ(-140px) rotateX(180deg); }
-.cube-face-top    { transform: rotateX(90deg) translateZ(240px); transform-origin: top center; }
-.cube-face-bottom { transform: rotateX(-90deg) translateZ(240px); transform-origin: bottom center; }
-
-.cube-face-num {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 140px;
-  font-weight: 700;
-  color: #262626;
-  line-height: 1;
-  position: absolute;
-  right: -10px;
-  top: 50%;
-  transform: translateY(-50%);
-  user-select: none;
-}
-.cube-face-content { position: relative; z-index: 1; }
-.cube-face-content h3 {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 300;
-  font-size: 18px;
-  color: var(--white);
-  margin-bottom: 12px;
-  line-height: 1.4;
-}
-.cube-face-content p {
+.about-label {
   font-family: 'Satoshi', sans-serif;
   font-size: 14px;
-  line-height: 1.6;
-  color: rgba(255,255,255,0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+.about-heading {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2rem, 5vw, 4.5rem);
+  font-weight: 500;
+  color: var(--dark);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.about-text {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+  max-width: 600px;
+}
+.about-link {
+  margin-top: 16px;
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--dark);
+  text-decoration: none;
+  border-bottom: 1px solid var(--dark);
+  padding-bottom: 4px;
+  transition: color 0.3s, border-color 0.3s;
+}
+.about-link:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }
 
 /* ─── COLLECTION ─── */

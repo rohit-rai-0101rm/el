@@ -46,12 +46,36 @@ export default function Contact() {
               <h3>Elyx Mumbai</h3>
               <p>Binny's Jewellery Private Limited, 14/A, 1st Floor, Paper Box, Andheri East, Mumbai, Maharashtra 400093</p>
               <a href="tel:+2590256215" className="contact-link">+259 (0) 256 215</a>
+              <div className="map-container">
+                <iframe 
+                  src="https://maps.google.com/maps?q=Andheri%20East,%20Mumbai,%20Maharashtra%20400093&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Elyx Mumbai Map"
+                ></iframe>
+              </div>
             </div>
             
             <div className="branch-card">
               <h3>Elyx Surat</h3>
               <p>Binny's Jewellery Boutique, Opp Science Center, City Light Rd, next to Sarvoday Bank, Surat, Gujarat</p>
               <a href="tel:+2590256215" className="contact-link">+259 (0) 256 215</a>
+              <div className="map-container">
+                <iframe 
+                  src="https://maps.google.com/maps?q=City%20Light%20Rd,%20Surat,%20Gujarat&t=&z=14&ie=UTF8&iwloc=&output=embed" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0 }} 
+                  allowFullScreen="" 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Elyx Surat Map"
+                ></iframe>
+              </div>
             </div>
           </div>
         </div>
@@ -115,6 +139,15 @@ export default function Contact() {
         .branch-card p {
           font-size: 0.95rem;
           margin-bottom: 16px;
+        }
+        .map-container {
+          margin-top: 24px;
+          width: 100%;
+          height: 200px;
+          border-radius: 6px;
+          overflow: hidden;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
         }
         
         /* Form */

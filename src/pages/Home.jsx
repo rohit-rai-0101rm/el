@@ -43,18 +43,7 @@ export default function Home() {
     }
 
     // ── CUBE: SCROLL-DRIVEN ROTATION ──
-    const cubeWrapper = document.getElementById('cubeWrapper');
-    const aboutSection = document.getElementById('about');
-    if (cubeWrapper && aboutSection) {
-      const onCubeScroll = () => {
-        const rect = aboutSection.getBoundingClientRect();
-        const total = aboutSection.offsetHeight - window.innerHeight;
-        const progress = Math.max(0, Math.min(1, -rect.top / total));
-        cubeWrapper.style.transform = `rotateX(${progress * 360}deg)`;
-      };
-      window.addEventListener('scroll', onCubeScroll, { passive: true });
-      cleanups.push(() => window.removeEventListener('scroll', onCubeScroll));
-    }
+    // Removed because the 3D cube animation was replaced with an elegant static layout.
 
     // ── REVIEWS: DRAG TO SCROLL ──
     const track = document.getElementById('reviewsTrack');

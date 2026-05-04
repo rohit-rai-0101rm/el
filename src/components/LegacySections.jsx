@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import AboutReveal from './AboutReveal';
 
 const INTRO_ITEMS = [
   {
@@ -200,44 +201,7 @@ export default function LegacySections() {
         </div>
       </section>
 
-      {/* ── ABOUT / 3D CUBE ── */}
-      <section id="about">
-        <div className="about-sticky">
-          <div className="about-title fade-in">ABOUT US</div>
-          <div className="cube-scene">
-            <div className="cube-wrapper" id="cubeWrapper">
-              <div className="cube-face cube-face-front">
-                <span className="cube-face-num">01</span>
-                <div className="cube-face-content">
-                  <h3>Innovative Solutions, Timeless Design</h3>
-                  <p>We blend creativity and technology to deliver designs that stand the test of time.</p>
-                </div>
-              </div>
-              <div className="cube-face cube-face-top">
-                <span className="cube-face-num">02</span>
-                <div className="cube-face-content">
-                  <h3>Your Vision, Our Expertise</h3>
-                  <p>Partner with us to bring your ideas to life with precision and creativity.</p>
-                </div>
-              </div>
-              <div className="cube-face cube-face-back">
-                <span className="cube-face-num">03</span>
-                <div className="cube-face-content">
-                  <h3>Crafting Digital Experiences</h3>
-                  <p>We create engaging and intuitive digital experiences tailored to your audience.</p>
-                </div>
-              </div>
-              <div className="cube-face cube-face-bottom">
-                <span className="cube-face-num">04</span>
-                <div className="cube-face-content">
-                  <h3>Driven by Creativity, Defined by Excellence</h3>
-                  <p>Our team is passionate about delivering top-notch solutions that exceed expectations.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <AboutReveal />
 
       {/* ── COLLECTION ── */}
       <section id="collection">
