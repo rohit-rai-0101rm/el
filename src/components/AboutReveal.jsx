@@ -1,197 +1,230 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
-const panels = [
-  {
-    title: "Our Legacy",
-    text: "Elyx is the latest evolution of Binny’s Jewellery, a trusted name in the world of luxury craftsmanship. Born from years of expertise, Elyx represents the next level of sophistication, where precision meets innovation.",
-    image: "https://framerusercontent.com/images/X6THCszcCEdeHgCU7Anih2mKvc.webp",
-    color: "#111"
-  },
-  {
-    title: "The Craft",
-    text: "Crafted using the finest Swiss rubber, our designs redefine durability and elegance. With over 870 stunning creations, each piece from Elyx merges modern design with the timeless quality that Binny’s is known for.",
-    image: "https://framerusercontent.com/images/ILHR7EySa2gWrLnzOIQLcxbmLkQ.webp",
-    color: "#1a1a1a"
-  },
-  {
-    title: "The Vision",
-    text: "Our collection is for the bold, the refined, and the discerning—those who seek more than just jewellery, but a statement of style and strength. Every piece is crafted to offer versatility and resilience, ensuring you experience luxury without compromise.",
-    image: "https://framerusercontent.com/images/WMQWY9o35uYZ4CuYH4Eto5lmIKc.webp",
-    color: "#222"
-  },
-  {
-    title: "The Masterpiece",
-    text: "Elyx is more than a name—it’s a legacy, continuing Binny’s tradition of creating masterpieces that stand the test of time.",
-    image: "https://framerusercontent.com/images/6fcGt9GY2H5QXZ8kA7Wl3HDagcc.webp",
-    color: "#2a2a2a"
-  }
-];
-
-const Card = ({ panel, i, progress, range, targetScale }) => {
-  const containerRef = useRef(null);
-  
-  // Scale down the card when the NEXT cards stack on top of it.
-  const scale = useTransform(progress, range, [1, targetScale]);
-  
-  // Slight darkening effect as cards stack over it
-  const opacity = useTransform(progress, range, [1, 0.5]);
-
+const SectionParallaxImage = ({ src, alt, className }) => {
   return (
-    <div ref={containerRef} className="stack-card-container">
-      <motion.div 
-        className="stack-card"
-        style={{ 
-          backgroundColor: panel.color,
-          scale,
-          top: `calc(10vh + ${i * 25}px)` 
-        }}
-      >
-        <motion.div style={{ opacity }} className="stack-card-inner">
-          <div className="stack-card-text">
-            <span className="stack-card-num">0{i + 1}</span>
-            <h2>{panel.title}</h2>
-            <p>{panel.text}</p>
-          </div>
-          <div className="stack-card-image">
-            <img src={panel.image} alt={panel.title} />
-          </div>
-        </motion.div>
-      </motion.div>
+    <div className={`editorial-img-container ${className}`}>
+      <motion.img 
+        src={src} 
+        alt={alt} 
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, margin: "-20%" }}
+        transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+      />
     </div>
   );
 };
 
-export default function AboutReveal() {
-  const containerRef = useRef(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
+const SectionText = ({ title, text, className }) => (
+  <motion.div 
+    className={`editorial-text ${className}`}
+    initial={{ opacity: 0, y: 60 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, margin: "-20%" }}
+    transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+  >
+    <div className="text-divider"></div>
+    <h2>{title}</h2>
+    <p>{text}</p>
+  </motion.div>
+);
 
+export default function AboutReveal() {
   return (
-    <section ref={containerRef} className="stack-wrapper">
-      <div className="stack-header">
-        <h2 className="fade-in">ABOUT US</h2>
+    <section className="editorial-about-wrapper">
+      <div className="editorial-header fade-in">
+        <span className="editorial-label">Brand Story</span>
+        <h1>The Elyx Legacy</h1>
       </div>
-      
-      {panels.map((panel, i) => {
-        const targetScale = 1 - ((panels.length - i) * 0.04);
-        const range = [i * 0.25, 1];
+
+      <div className="editorial-grid">
         
-        return (
-          <Card 
-            key={i} 
-            panel={panel} 
-            i={i} 
-            progress={scrollYProgress} 
-            range={range} 
-            targetScale={targetScale} 
+        {/* Block 1: Craftsmanship */}
+        <div className="editorial-block block-1">
+          <SectionText 
+            title="A Trusted Evolution" 
+            text="Elyx is the latest evolution of Binny’s Jewellery, a trusted name in the world of luxury craftsmanship. Born from years of expertise, Elyx represents the next level of sophistication, where precision meets innovation."
+            className="text-left"
           />
-        );
-      })}
+          <SectionParallaxImage 
+            src="/elyx_craftsmanship.png" 
+            alt="Craftsmanship and Diamonds" 
+            className="img-right img-square"
+          />
+        </div>
+
+        {/* Block 2: Swiss Rubber */}
+        <div className="editorial-block block-2">
+          <SectionParallaxImage 
+            src="/elyx_rubber_clasp.png" 
+            alt="Swiss Rubber Clasp" 
+            className="img-left img-tall"
+          />
+          <SectionText 
+            title="Finest Materials" 
+            text="Crafted using the finest Swiss rubber, our designs redefine durability and elegance. With over 870 stunning creations, each piece from Elyx merges modern design with the timeless quality that Binny’s is known for."
+            className="text-right overlap-left"
+          />
+        </div>
+
+        {/* Block 3: Bold Lifestyle */}
+        <div className="editorial-block block-3">
+          <SectionText 
+            title="For The Discerning" 
+            text="Our collection is for the bold, the refined, and the discerning—those who seek more than just jewellery, but a statement of style and strength. Every piece is crafted to offer versatility and resilience, ensuring you experience luxury without compromise."
+            className="text-center"
+          />
+          <SectionParallaxImage 
+            src="/elyx_lifestyle_wrist.png" 
+            alt="Bold Lifestyle" 
+            className="img-center img-wide"
+          />
+        </div>
+
+        {/* Block 4: The Masterpiece */}
+        <div className="editorial-block block-4">
+          <SectionText 
+            title="The Masterpiece" 
+            text="Elyx is more than a name—it’s a legacy, continuing Binny’s tradition of creating masterpieces that stand the test of time."
+            className="text-left"
+          />
+          <SectionParallaxImage 
+            src="/elyx_masterpiece.png" 
+            alt="Timeless Masterpiece" 
+            className="img-right img-square"
+          />
+        </div>
+
+      </div>
 
       <style>{`
-        .stack-wrapper {
-          position: relative;
-          background: #000;
-          padding-bottom: 20vh;
-        }
-        .stack-header {
-          height: 40vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-        .stack-header h2 {
-          font-family: 'Clash Display', sans-serif;
-          font-size: clamp(3rem, 6vw, 5rem);
-          font-weight: 500;
-          letter-spacing: 0.1em;
+        .editorial-about-wrapper {
+          background: #050505;
+          padding: 160px 40px;
           color: #fff;
-        }
-        .stack-card-container {
-          height: 100vh;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: sticky;
-          top: 0;
-        }
-        .stack-card {
-          display: flex;
-          flex-direction: column;
-          position: relative;
-          width: 100%;
-          max-width: 1000px;
-          height: 600px;
-          border-radius: 24px;
-          transform-origin: top center;
-          box-shadow: 0 -10px 40px rgba(0,0,0,0.5);
-          overflow: hidden;
-          border: 1px solid rgba(255,255,255,0.05);
-        }
-        .stack-card-inner {
-          display: flex;
-          width: 100%;
-          height: 100%;
-        }
-        .stack-card-text {
-          flex: 1;
-          padding: 60px;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-        }
-        .stack-card-num {
           font-family: 'Satoshi', sans-serif;
-          font-size: 1.2rem;
+        }
+
+        .editorial-header {
+          text-align: center;
+          margin-bottom: 160px;
+        }
+        .editorial-label {
+          font-size: 14px;
+          text-transform: uppercase;
+          letter-spacing: 0.3em;
           color: #d4af37;
-          margin-bottom: 24px;
           display: block;
-        }
-        .stack-card-text h2 {
-          font-family: 'Clash Display', sans-serif;
-          font-size: 3rem;
-          color: #fff;
           margin-bottom: 24px;
-          font-weight: 500;
         }
-        .stack-card-text p {
-          font-family: 'Satoshi', sans-serif;
+        .editorial-header h1 {
+          font-family: 'Clash Display', sans-serif;
+          font-size: clamp(3rem, 6vw, 6rem);
+          font-weight: 500;
+          letter-spacing: -0.02em;
+          margin: 0;
+        }
+
+        .editorial-grid {
+          max-width: 1400px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 200px;
+        }
+
+        .editorial-block {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          position: relative;
+        }
+
+        /* Block 3 specific override */
+        .block-3 {
+          flex-direction: column;
+          gap: 80px;
+        }
+
+        .editorial-text {
+          flex: 1;
+          max-width: 500px;
+          z-index: 2;
+        }
+        .editorial-text .text-divider {
+          width: 40px;
+          height: 2px;
+          background: #d4af37;
+          margin-bottom: 32px;
+        }
+        .editorial-text h2 {
+          font-family: 'Clash Display', sans-serif;
+          font-size: clamp(2rem, 3.5vw, 3rem);
+          font-weight: 500;
+          margin-bottom: 24px;
+          color: #fff;
+          line-height: 1.1;
+        }
+        .editorial-text p {
           font-size: 1.15rem;
           line-height: 1.8;
-          color: #b3b3b3;
+          color: #a0a0a0;
         }
-        .stack-card-image {
-          flex: 1;
-          height: 100%;
+
+        /* Positioning Utilities */
+        .text-left { margin-right: 60px; }
+        .text-right { margin-left: 60px; }
+        .text-center { 
+          text-align: center; 
+          max-width: 800px; 
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
-        .stack-card-image img {
+        
+        .overlap-left {
+          margin-left: -100px; /* Overlaps the left image slightly */
+          background: rgba(5,5,5,0.8);
+          backdrop-filter: blur(10px);
+          padding: 60px;
+          border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .editorial-img-container {
+          flex: 1.2;
+          overflow: hidden;
+          border-radius: 4px;
+        }
+        .editorial-img-container img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          filter: grayscale(10%);
+          display: block;
         }
 
-        @media (max-width: 900px) {
-          .stack-card {
-            height: auto;
-            min-height: 600px;
-            max-width: 90%;
+        .img-square { aspect-ratio: 1 / 1; max-width: 600px; }
+        .img-tall { aspect-ratio: 4 / 5; max-width: 500px; }
+        .img-wide { aspect-ratio: 16 / 9; width: 100%; max-width: 1200px; }
+
+        @media (max-width: 1024px) {
+          .editorial-block {
+            flex-direction: column !important;
+            gap: 60px;
           }
-          .stack-card-inner {
-            flex-direction: column;
+          .editorial-text {
+            max-width: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            backdrop-filter: none !important;
+            border: none !important;
           }
-          .stack-card-text {
-            padding: 40px 32px;
+          .img-square, .img-tall, .img-wide {
+            max-width: 100%;
           }
-          .stack-card-text h2 {
-            font-size: 2rem;
-          }
-          .stack-card-image {
-            min-height: 300px;
+          .editorial-grid {
+            gap: 120px;
           }
         }
       `}</style>
