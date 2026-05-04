@@ -547,76 +547,7 @@ nav {
 }
 
 /* ─── INTRO ─── */
-#intro {
-  background: var(--white);
-  padding: 140px 64px;
-}
-.intro-inner {
-  max-width: 1400px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 100px;
-  align-items: start;
-}
-.intro-header h2 {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 400;
-  font-size: clamp(32px, 4vw, 56px);
-  letter-spacing: -0.03em;
-  line-height: 1.2;
-  color: var(--dark);
-  margin-bottom: 24px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s, transform 0.8s;
-}
-.intro-header h2.visible { opacity: 1; transform: translateY(0); }
-.intro-desc {
-  font-family: 'Satoshi', sans-serif;
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--text-muted);
-  max-width: 380px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.8s 0.15s, transform 0.8s 0.15s;
-}
-.intro-header.visible .intro-desc { opacity: 1; transform: translateY(0); }
-.intro-items { display: flex; flex-direction: column; }
-.intro-item {
-  display: flex;
-  gap: 28px;
-  padding: 28px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  opacity: 0;
-  transform: translateX(20px);
-  transition: opacity 0.6s, transform 0.6s;
-}
-.intro-item.visible { opacity: 1; transform: translateX(0); }
-.intro-num {
-  font-family: 'Clash Display', sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2em;
-  color: var(--accent);
-  flex-shrink: 0;
-  margin-top: 3px;
-}
-.intro-item-content h3 {
-  font-family: 'Clash Display', sans-serif;
-  font-weight: 400;
-  font-size: 20px;
-  color: var(--dark);
-  margin-bottom: 8px;
-  letter-spacing: -0.01em;
-}
-.intro-item-content p {
-  font-family: 'Satoshi', sans-serif;
-  font-size: 15px;
-  line-height: 1.65;
-  color: var(--text-muted);
-}
+
 
 /* ─── TICKER ─── */
 #ticker {
@@ -1117,7 +1048,7 @@ footer {
   nav { padding: 16px 20px; }
   .nav-links { display: none; }
   .nav-cta { font-size: 11px; padding: 7px 14px; }
-  #intro { padding: 80px 24px; }
+
   .intro-inner { grid-template-columns: 1fr; gap: 48px; }
   .hs-inner { flex-direction: column; padding: 80px 24px; gap: 40px; }
   .hs-image { max-width: 100%; width: 100%; aspect-ratio: 3/2; }
