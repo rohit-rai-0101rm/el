@@ -122,64 +122,196 @@ const FRAMES = [
   'https://framerusercontent.com/images/lXCwpF6MQxYQ9NBi58yADvzlwk.webp',
 ];
 
+const PARTICLE_COUNT = 280;
+
+function makeParticle(i) {
+  const isOrbital = i < 180;
+  const angle = Math.random() * Math.PI * 2;
+  const baseRadius = isOrbital ? 90 + Math.random() * 230 : 0;
+  return {
+    angle,
+    baseRadius,
+    radius: baseRadius,
+    orbitSpeed: (Math.random() - 0.5) * 0.005 + (isOrbital ? 0.0009 : 0),
+    x: 0, y: 0,
+    vx: (Math.random() - 0.5) * 0.5,
+    vy: (Math.random() - 0.5) * 0.5,
+    size: isOrbital ? Math.random() * 2.2 + 0.4 : Math.random() * 1.4 + 0.3,
+    opacity: Math.random() * 0.75 + 0.15,
+    depth: Math.random(),
+    isOrbital,
+    hueOff: (Math.random() - 0.5) * 18,
+  };
+}
+
 export default function HeroDoor() {
-  const containerRef = useRef(null);
-  const canvasRef = useRef(null);
-  const imagesRef = useRef([]);
-  const frameRef = useRef(0);
+  const containerRef    = useRef(null);
+  const canvasRef       = useRef(null);
+  const particleRef     = useRef(null);
+  const bgLayerRef      = useRef(null);
+  const textLayerRef    = useRef(null);
+  const imagesRef       = useRef([]);
+  const frameRef        = useRef(0);
+  const mouseRef        = useRef({ x: 0, y: 0, nx: 0, ny: 0 });
+  const smoothRef       = useRef({ nx: 0, ny: 0, x: 0, y: 0 });
+  const particlesRef    = useRef([]);
+  const rafRef          = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ['start start', 'end end'],
   });
 
+  // ── Draw product frame ──
   const renderFrame = useCallback((index) => {
     const canvas = canvasRef.current;
     const img = imagesRef.current[index];
     if (!canvas || !img?.complete || !img.naturalWidth) return;
-
     const ctx = canvas.getContext('2d');
-    const cw = canvas.width;
-    const ch = canvas.height;
-
-    // object-fit: cover crop
-    const ir = img.naturalWidth / img.naturalHeight;
-    const cr = cw / ch;
+    const cw = canvas.width, ch = canvas.height;
+    const ir = img.naturalWidth / img.naturalHeight, cr = cw / ch;
     let sx, sy, sw, sh;
-    if (ir > cr) {
-      sh = img.naturalHeight;
-      sw = sh * cr;
-      sx = (img.naturalWidth - sw) / 2;
-      sy = 0;
-    } else {
-      sw = img.naturalWidth;
-      sh = sw / cr;
-      sx = 0;
-      sy = (img.naturalHeight - sh) / 2;
-    }
+    if (ir > cr) { sh = img.naturalHeight; sw = sh * cr; sx = (img.naturalWidth - sw) / 2; sy = 0; }
+    else         { sw = img.naturalWidth;  sh = sw / cr; sx = 0; sy = (img.naturalHeight - sh) / 2; }
     ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
   }, []);
 
-  // preload all frames
+  // ── Single RAF loop: particles + parallax layers ──
+  const loop = useCallback(() => {
+    const pCanvas = particleRef.current;
+    if (!pCanvas) { rafRef.current = requestAnimationFrame(loop); return; }
+
+    const ctx = pCanvas.getContext('2d');
+    const dpr = window.devicePixelRatio || 1;
+    const cw = pCanvas.width, ch = pCanvas.height;
+    const cx = cw / 2, cy = ch / 2;
+
+    // Lerp mouse
+    const s = smoothRef.current, m = mouseRef.current;
+    s.nx += (m.nx - s.nx) * 0.055;
+    s.ny += (m.ny - s.ny) * 0.055;
+    s.x  += (m.x  - s.x)  * 0.055;
+    s.y  += (m.y  - s.y)  * 0.055;
+
+    // Parallax: bg moves opposite mouse, text moves same direction
+    if (bgLayerRef.current)
+      bgLayerRef.current.style.transform = `translate(${s.nx * -20}px, ${s.ny * -14}px) scale(1.06)`;
+    if (textLayerRef.current)
+      textLayerRef.current.style.transform = `translate(${s.nx * 18}px, ${s.ny * 12}px)`;
+
+    ctx.clearRect(0, 0, cw, ch);
+
+    const mx = s.x * dpr;
+    const my = s.y * dpr;
+
+    // ── Update + draw particles ──
+    particlesRef.current.forEach(p => {
+      if (p.isOrbital) {
+        p.angle += p.orbitSpeed;
+
+        // Mouse gravity distorts orbit radius
+        const dx = mx - cx, dy = my - cy;
+        const md = Math.sqrt(dx * dx + dy * dy);
+        const pull = Math.max(0, 1 - md / (cw * 0.5)) * 45;
+        p.radius += (p.baseRadius + pull - p.radius) * 0.04;
+
+        // Elliptical (simulated z-depth)
+        p.x = cx + Math.cos(p.angle) * p.radius;
+        p.y = cy + Math.sin(p.angle) * p.radius * 0.36;
+
+        // Parallax shift based on depth
+        p.x += s.nx * (p.depth * 16 - 8);
+        p.y += s.ny * (p.depth * 10 - 5);
+      } else {
+        // Free particle with mouse repulsion
+        const rdx = p.x - mx, rdy = p.y - my;
+        const rd = Math.sqrt(rdx * rdx + rdy * rdy);
+        if (rd < 130 * dpr && rd > 0) {
+          const f = ((130 * dpr - rd) / (130 * dpr)) * 0.55;
+          p.vx += (rdx / rd) * f;
+          p.vy += (rdy / rd) * f;
+        }
+        p.vx *= 0.97; p.vy *= 0.97;
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -10) p.x = cw + 10;
+        if (p.x > cw + 10) p.x = -10;
+        if (p.y < -10) p.y = ch + 10;
+        if (p.y > ch + 10) p.y = -10;
+      }
+
+      const sz = p.size * dpr * (0.35 + p.depth * 0.85);
+      const al = p.opacity * (0.15 + p.depth * 0.85);
+      const h  = 43 + p.hueOff;
+      const l  = 46 + p.depth * 24;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, sz, 0, Math.PI * 2);
+      ctx.fillStyle = `hsla(${h},78%,${l}%,${al})`;
+      ctx.fill();
+
+      // Halo glow on near-depth particles
+      if (p.depth > 0.62 && sz > 0.9) {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, sz * 4, 0, Math.PI * 2);
+        ctx.fillStyle = `hsla(${h},78%,65%,${al * 0.11})`;
+        ctx.fill();
+      }
+    });
+
+    // ── Constellation lines between close orbital particles ──
+    const nearOrb = particlesRef.current.filter(p => p.isOrbital && p.depth > 0.52);
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i < nearOrb.length - 1; i++) {
+      for (let j = i + 1; j < nearOrb.length; j++) {
+        const dx = nearOrb[i].x - nearOrb[j].x;
+        const dy = nearOrb[i].y - nearOrb[j].y;
+        const d  = Math.sqrt(dx * dx + dy * dy);
+        if (d < 58 * dpr) {
+          ctx.beginPath();
+          ctx.moveTo(nearOrb[i].x, nearOrb[i].y);
+          ctx.lineTo(nearOrb[j].x, nearOrb[j].y);
+          ctx.strokeStyle = `rgba(212,175,55,${(1 - d / (58 * dpr)) * 0.13})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // ── Gold cursor aura ──
+    if (mx > 0 && my > 0) {
+      const r  = 75 * dpr;
+      const gr = ctx.createRadialGradient(mx, my, 0, mx, my, r);
+      gr.addColorStop(0, 'rgba(212,175,55,0.08)');
+      gr.addColorStop(1, 'rgba(212,175,55,0)');
+      ctx.beginPath();
+      ctx.arc(mx, my, r, 0, Math.PI * 2);
+      ctx.fillStyle = gr;
+      ctx.fill();
+    }
+
+    rafRef.current = requestAnimationFrame(loop);
+  }, []);
+
+  // ── Preload frames ──
   useEffect(() => {
-    const images = FRAMES.map((src, i) => {
+    imagesRef.current = FRAMES.map((src, i) => {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.onload = () => { if (i === 0) renderFrame(0); };
       img.src = src;
       return img;
     });
-    imagesRef.current = images;
   }, [renderFrame]);
 
-  // set canvas resolution and re-render on resize
+  // ── Resize canvases ──
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
     const dpr = window.devicePixelRatio || 1;
     const resize = () => {
-      canvas.width = canvas.offsetWidth * dpr;
-      canvas.height = canvas.offsetHeight * dpr;
+      [canvasRef, particleRef].forEach(ref => {
+        const c = ref.current;
+        if (!c) return;
+        c.width  = c.offsetWidth  * dpr;
+        c.height = c.offsetHeight * dpr;
+      });
       renderFrame(frameRef.current);
     };
     resize();
@@ -187,10 +319,38 @@ export default function HeroDoor() {
     return () => window.removeEventListener('resize', resize);
   }, [renderFrame]);
 
-  // scroll → frame index
+  // ── Init particles + start loop ──
+  useEffect(() => {
+    const w = window.innerWidth, h = window.innerHeight;
+    particlesRef.current = Array.from({ length: PARTICLE_COUNT }, (_, i) => {
+      const p = makeParticle(i);
+      if (!p.isOrbital) { p.x = Math.random() * w; p.y = Math.random() * h; }
+      return p;
+    });
+    mouseRef.current = { x: w / 2, y: h / 2, nx: 0, ny: 0 };
+    smoothRef.current = { x: w / 2, y: h / 2, nx: 0, ny: 0 };
+    rafRef.current = requestAnimationFrame(loop);
+    return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current); };
+  }, [loop]);
+
+  // ── Mouse tracking ──
+  useEffect(() => {
+    const onMove = (e) => {
+      mouseRef.current = {
+        x:  e.clientX,
+        y:  e.clientY,
+        nx: (e.clientX / window.innerWidth  - 0.5) * 2,
+        ny: (e.clientY / window.innerHeight - 0.5) * 2,
+      };
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
+  }, []);
+
+  // ── Scroll → frame ──
   useEffect(() => {
     return scrollYProgress.on('change', (v) => {
-      const idx = Math.round(v * (FRAMES.length - 1));
+      const idx     = Math.round(v * (FRAMES.length - 1));
       const clamped = Math.max(0, Math.min(FRAMES.length - 1, idx));
       if (clamped !== frameRef.current) {
         frameRef.current = clamped;
@@ -202,7 +362,26 @@ export default function HeroDoor() {
   return (
     <section id="hero-door-wrapper" ref={containerRef}>
       <div className="hero-sticky">
+
+        {/* Layer 0: deep BG — moves opposite mouse (parallax back) */}
+        <div ref={bgLayerRef} className="hero-depth-bg" />
+
+        {/* Layer 1: product frame canvas */}
         <canvas ref={canvasRef} className="hero-canvas" />
+
+        {/* Layer 2: dark vignette */}
+        <div className="hero-vignette" />
+
+        {/* Layer 3: gold particle constellation */}
+        <canvas ref={particleRef} className="hero-particle-canvas" />
+
+        {/* Layer 4: floating text — moves same as mouse (parallax front) */}
+        <div ref={textLayerRef} className="hero-float-text">
+          <span className="hero-float-eyebrow">The World of Elyx</span>
+          <h1 className="hero-float-headline">Luxury<br />Defined</h1>
+          <p className="hero-float-sub">Scroll to Explore</p>
+        </div>
+
       </div>
     </section>
   );

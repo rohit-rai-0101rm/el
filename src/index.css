@@ -95,7 +95,7 @@ nav {
 }
 .nav-links a:hover { color: var(--white); }
 
-/* ─── SHOWROOM SCROLL ─── */
+/* ─── HERO SCROLL SEQUENCE ─── */
 #hero-door-wrapper {
   height: 600vh;
   position: relative;
@@ -108,442 +108,87 @@ nav {
   overflow: hidden;
   background: #000;
 }
+
+/* BG layer — deep warm dark, oversized so parallax shift doesn't show edge */
+.hero-depth-bg {
+  position: absolute;
+  inset: -6%;
+  background: radial-gradient(ellipse 90% 90% at 50% 40%, #160f06 0%, #000 100%);
+  z-index: 0;
+  will-change: transform;
+}
+
+/* Product frame canvas */
 .hero-canvas {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
   height: 100%;
-}
-
-/* Showroom Interior */
-.hero-interior {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: #cfc4bb;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  z-index: 1;
-  opacity: 0;
-  transform: translateZ(-500px);
-  will-change: transform, opacity;
-  overflow: hidden;
-  backface-visibility: hidden;
-}
-
-/* Ceiling */
-.showroom-ceiling {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 22%;
-  background: linear-gradient(to bottom, #0d0a08 0%, #1e1610 60%, #cfc4bb 100%);
-  z-index: 5;
-  overflow: hidden;
-}
-.track-rail {
-  position: absolute;
-  top: 38%;
-  left: 5%; right: 5%;
-  height: 3px;
-  background: #3a3a3a;
-  border-radius: 2px;
-}
-.track-rail::before {
-  content: '';
-  position: absolute;
-  top: -5px;
-  height: 14px;
-  width: 3px;
-  background: #888;
-  box-shadow: 60px 0 #888, 120px 0 #888, 180px 0 #888, 240px 0 #888, 300px 0 #888, 360px 0 #888, 420px 0 #888, 480px 0 #888, 540px 0 #888, 600px 0 #888, 660px 0 #888, 720px 0 #888, 780px 0 #888, 840px 0 #888;
-  left: 10px;
-}
-.track-rail-2 {
-  top: 62%;
-}
-
-
-/* Back Wall and Arches */
-.showroom-back-wall {
-  position: absolute;
-  top: 10%;
-  width: 100%;
-  height: 80%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-.arch-group {
-  display: flex;
-  gap: 2vw;
-  height: 100%;
-}
-.arch-niche {
-  width: 12vw;
-  height: 90%;
-  background: #c5b5aa;
-  border: 4px solid #fff;
-  border-radius: 10vw 10vw 0 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  position: relative;
-  transform: translateZ(0); /* Hardware acceleration */
-  backface-visibility: hidden;
-}
-.arch-niche::before {
-  content: '';
-  position: absolute;
-  top: 5%;
-  width: 20px; height: 20px;
-  background: #fff;
-  border-radius: 50%;
-  box-shadow: 0 0 40px 20px rgba(255,255,255,0.9);
-}
-.shelf {
-  width: 60%;
-  height: 4px;
-  background: rgba(255,255,255,0.6);
-  box-shadow: 0 5px 10px rgba(0,0,0,0.2);
-}
-
-/* Center Burgundy Panel */
-.center-panel {
-  width: 30vw;
-  height: 100%;
-  background: #4a1525; /* Deep burgundy */
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  position: relative;
-  transform: translateZ(0);
-  backface-visibility: hidden;
-}
-.elyx-logo-graphic {
-  margin-top: 20%;
-  font-family: 'Clash Display', sans-serif;
-  font-size: 5vw;
-  color: #d4af37;
-  letter-spacing: 0.1em;
-  text-shadow: 0 0 20px rgba(212,175,55,0.6);
-  border: 2px solid #d4af37;
-  border-radius: 50%;
-  width: 15vw;
-  height: 15vw;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Display Cases */
-.display-cases {
-  position: relative;
-  z-index: 10;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  width: 100%;
-  height: 58vh;
-  gap: 1vw;
-  padding: 0 1vw 1vh;
-}
-.display-case {
-  width: 26%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.center-case {
-  width: 38%;
-  transform: scale(1.06);
-  transform-origin: bottom center;
-}
-.glass-top {
-  width: 100%;
-  flex: 1;
-  border: 3px solid #c4a03a;
-  background: rgba(10,8,6,0.55);
-  position: relative;
-  transform: perspective(900px) rotateX(28deg);
-  transform-origin: bottom center;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
-  gap: 4px;
-  padding: 8px;
-  overflow: hidden;
-  backface-visibility: hidden;
-}
-.jewelry-box {
-  aspect-ratio: 3/2;
-  background: #0d0d0d;
-  border: 1px solid #333;
-  border-radius: 1px;
-  overflow: hidden;
-  position: relative;
-}
-.jewelry-box::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(255,255,255,0.06) 0%, transparent 40%);
-  pointer-events: none;
   z-index: 1;
 }
-.jewelry-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: brightness(0.95) contrast(1.1);
-}
-.wood-base {
-  width: 100%;
-  height: 28%;
-  background: linear-gradient(to right, #6b4423, #8b5a2b, #9a6233, #8b5a2b, #6b4423);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  position: relative;
-}
-.wood-base::before {
-  content: '';
-  position: absolute;
-  top: 8px; left: 0; right: 0;
-  height: 2px;
-  background: rgba(255,255,255,0.08);
-}
-.metal-legs {
-  width: 75%;
-  height: 15%;
-  border-left: 3px solid #aaa;
-  border-right: 3px solid #aaa;
-  border-bottom: 3px solid #aaa;
-  border-radius: 0 0 50% 50%;
-}
 
-/* ─── FACADE ─── */
-.hero-facade {
+/* Radial vignette — darkens edges, focuses eye on center product */
+.hero-vignette {
   position: absolute;
   inset: 0;
-  background: #e0d3c6;
-  z-index: 10;
-  transform-style: preserve-3d;
-  perspective: 1400px;
-  will-change: transform;
-  overflow: hidden;
-}
-.hero-facade::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 55% 70% at 22% 55%, rgba(255,255,255,0.14) 0%, transparent 60%),
-    radial-gradient(ellipse 55% 70% at 78% 55%, rgba(255,255,255,0.10) 0%, transparent 60%),
-    linear-gradient(180deg, #d6c8ba 0%, #e4d7c9 35%, #e0d3c6 65%, #d5c7b9 100%);
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Side arch niches */
-.facade-niche {
-  position: absolute;
-  bottom: 0;
-  width: clamp(120px, 15vw, 230px);
-  height: clamp(300px, 70vh, 660px);
-  background: linear-gradient(170deg, #cfc8be 0%, #d8d0c6 100%);
-  border-radius: 50% 50% 0 0 / 8% 8% 0 0;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.10), inset 0 15px 40px rgba(0,0,0,0.07);
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  background: radial-gradient(ellipse 72% 72% at 50% 50%, transparent 28%, rgba(0,0,0,0.72) 100%);
   z-index: 2;
-}
-.facade-niche-left { left: 5vw; }
-.facade-niche-right { right: 5vw; }
-.niche-panel {
-  width: 60%;
-  height: 74%;
-  background: linear-gradient(180deg, #8c2535 0%, #6e1d28 55%, #5a1820 100%);
-  border-radius: 50% 50% 0 0 / 9% 9% 0 0;
+  pointer-events: none;
 }
 
-/* Entrance container */
-.entrance {
+/* Particle constellation canvas */
+.hero-particle-canvas {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: clamp(240px, 26vw, 460px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  z-index: 5;
-  transform-style: preserve-3d;
-}
-
-/* ELYX text plaque above arch */
-.entrance-ornament {
-  width: 68%;
-  padding: 9px 0;
-  text-align: center;
-  font-family: Georgia, 'Times New Roman', serif;
-  font-size: clamp(0.75rem, 1.5vw, 1.1rem);
-  letter-spacing: 0.62em;
-  color: #4a2f1a;
-  border: 1px solid rgba(90,58,28,0.32);
-  border-bottom: none;
-  border-radius: 3px 3px 0 0;
-  background: rgba(218,210,200,0.70);
-  backdrop-filter: blur(2px);
-  white-space: nowrap;
-  position: relative;
-  z-index: 1;
-}
-
-/* Arch frame */
-.entrance-arch-bg {
-  position: relative;
+  inset: 0;
+  display: block;
   width: 100%;
-  height: 80vh;
-  max-height: 800px;
-  background: #7a6045;
-  border-radius: 50% 50% 0 0 / 28% 28% 0 0;
-  overflow: visible;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 8px 8px 0;
-  box-sizing: border-box;
-  box-shadow: 3px 0 22px rgba(0,0,0,0.20), -3px 0 22px rgba(0,0,0,0.20);
-  transform-style: preserve-3d;
-}
-.entrance-arch-bg::before {
-  content: '';
-  position: absolute;
-  top: 8px; left: 8px; right: 8px; bottom: 0;
-  background: #0e0705;
-  border-radius: 47% 47% 0 0 / 26% 26% 0 0;
-  z-index: 0;
-}
-
-/* Semicircular transom window */
-.entrance-transom {
-  position: relative;
-  z-index: 1;
-  width: 76%;
-  aspect-ratio: 2 / 1;
-  flex-shrink: 0;
-  border-radius: 50% 50% 0 0;
-  background: linear-gradient(165deg, rgba(185,215,238,0.72) 0%, rgba(135,178,215,0.36) 100%);
-  border: 3px solid #7a6040;
-  margin-top: 1.5%;
-  box-shadow: inset 0 5px 18px rgba(255,255,255,0.55), inset 0 -2px 8px rgba(0,0,0,0.15);
-}
-
-/* Two door panels */
-.door-container {
-  position: relative;
-  z-index: 10;
-  width: 84%;
-  flex: 1;
-  display: flex;
-  transform-style: preserve-3d;
-}
-.hero-door {
-  width: 50%;
   height: 100%;
-  background: linear-gradient(180deg, #3e2010 0%, #2b1607 45%, #3e2010 100%);
-  border-left: 2px solid #180c04;
-  border-right: 2px solid #180c04;
-  border-bottom: 2px solid #180c04;
-  border-top: none;
-  position: relative;
-  transform-style: preserve-3d;
-  will-change: transform;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  padding: 8%;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.65);
-}
-.hero-door::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    180deg, transparent 0, transparent 15px,
-    rgba(0,0,0,0.04) 15px, rgba(0,0,0,0.04) 17px
-  );
+  z-index: 3;
   pointer-events: none;
 }
-.hero-door::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, rgba(255,255,255,0.07) 0%, rgba(0,0,0,0.32) 100%);
-  pointer-events: none;
-}
-.door-detail {
-  width: 78%;
-  height: 33%;
-  border: 2px solid #180c04;
-  box-shadow:
-    inset 2px 2px 8px rgba(0,0,0,0.55),
-    inset -1px -1px 4px rgba(100,55,15,0.10),
-    1px 1px 3px rgba(80,40,10,0.25);
-  position: relative;
-  z-index: 1;
-}
-.hero-door-left { transform-origin: left center; }
-.hero-door-right {
-  transform-origin: right center;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.65);
-}
-.handle {
-  position: absolute;
-  top: 50%;
-  width: 10px;
-  height: 68px;
-  background: linear-gradient(to right, #9a6c0e, #efbe2c, #c07e0c, #efbe2c, #9a6c0e);
-  border-radius: 5px;
-  transform: translateY(-50%);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.65), inset 0 1px 2px rgba(255,255,255,0.28);
-  z-index: 5;
-}
-.hero-door-left .handle { right: 8%; }
-.hero-door-right .handle { left: 8%; }
 
-/* Potted plants */
-.entrance-plant {
+/* Floating text — front parallax layer */
+.hero-float-text {
   position: absolute;
-  bottom: 0;
+  inset: 0;
+  z-index: 4;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  z-index: 6;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0 72px 72px;
+  pointer-events: none;
+  will-change: transform;
 }
-.entrance-plant-left { left: -8%; }
-.entrance-plant-right { right: -8%; }
-.plant-leaves {
-  width: clamp(22px, 2.6vw, 42px);
-  height: clamp(46px, 6.5vh, 84px);
-  background: linear-gradient(180deg, #50924a 0%, #3c7234 55%, #2e5a28 100%);
-  border-radius: 50% 50% 28% 28% / 44% 44% 18% 18%;
-  box-shadow: -5px -3px 0 rgba(26,62,22,0.62), 5px -3px 0 rgba(26,62,22,0.62);
+.hero-float-eyebrow {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.42em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
 }
-.plant-pot {
-  width: clamp(20px, 2.2vw, 34px);
-  height: clamp(16px, 2.4vh, 30px);
-  background: linear-gradient(180deg, #f2ede6 0%, #d9d3cb 50%, #c0b8b0 100%);
-  border-radius: 1px 1px 5px 5px;
-  border-top: 3px solid #e6e2dc;
+.hero-float-headline {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(3.5rem, 7.5vw, 7.5rem);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin: 0 0 28px;
+}
+.hero-float-sub {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
-  .entrance { width: 76vw; }
-  .facade-niche { display: none; }
-  .entrance-arch-bg { height: 70vh; }
+  .hero-float-text { padding: 0 28px 52px; }
+  .hero-float-headline { font-size: 3rem; }
 }
 
 /* ─── INTRO ─── */
@@ -900,27 +545,6 @@ footer {
   transition: width 0.1s linear;
 }
 
-/* ─── FACADE LOGO ─── */
-.facade-logo {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-family: 'Clash Display', sans-serif;
-  font-size: clamp(16px, 2vw, 26px);
-  font-weight: 400;
-  letter-spacing: 0.35em;
-  color: rgba(255,255,255,0.95);
-  text-transform: uppercase;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
-}
-.facade-crown-molding {
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  height: 3px;
-  background: linear-gradient(to right, transparent, rgba(200,180,160,0.8), transparent);
-}
 
 /* ─── VIDEO SECTION ─── */
 #video-section {
