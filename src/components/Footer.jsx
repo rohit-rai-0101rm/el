@@ -74,9 +74,9 @@ export default function Footer() {
             <h4>Pages</h4>
             <Link to="/">Home</Link>
             <a href="https://eylx.godaddysites.com/" target="_blank" rel="noopener noreferrer">Collection</a>
-            <a href="#">FAQ</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
+            <Link to="/faq">FAQ</Link>
+            <Link to="/about">About Us</Link>
+            <Link to="/contact">Contact Us</Link>
           </div>
           <div className="footer-col">
             <h4>Support</h4>
