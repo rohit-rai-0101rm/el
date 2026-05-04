@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import AboutReveal from './AboutReveal';
 import Testimonials3D from './Testimonials3D';
+import SpecsReveal from './SpecsReveal';
 
 const INTRO_ITEMS = [
   {
@@ -145,36 +146,7 @@ export default function LegacySections() {
         </div>
       </section>
 
-      {/* ── SPECS ── */}
-      <section id="specs">
-        <div className="specs-header fade-in">
-          <h2>Specification</h2>
-        </div>
-        <div className="specs-container">
-          <div className="specs-sticky" id="specsImage">
-            <img src="https://framerusercontent.com/images/uUATi49z7J3RerMA80TwkrBSo.jpg" alt="Spec 1" className="active" data-index="0" />
-            <img src="https://framerusercontent.com/images/TmWAfaWQewUUN5csBOWRCYlM0g.jpg" alt="Spec 2" data-index="1" />
-            <img src="https://framerusercontent.com/images/lQdJOioBoexDrlCVdYbr8eULtg8.jpg" alt="Spec 3" data-index="2" />
-            <img src="https://framerusercontent.com/images/uUATi49z7J3RerMA80TwkrBSo.jpg" alt="Spec 4" data-index="3" />
-            <img src="https://framerusercontent.com/images/TmWAfaWQewUUN5csBOWRCYlM0g.jpg" alt="Spec 5" data-index="4" />
-          </div>
-          <div className="specs-list">
-            {[
-              { num: '01', title: 'Style That Bends, Not Breaks', text: "Flex it at the gym, flaunt it at dinner — this bracelet's got moves. Crafted for those who live without limits and dress without apology." },
-              { num: '02', title: 'Premium Material Fusion', text: 'A carefully engineered blend of luxury metals and sustainable composites. Every piece tells a story of craftsmanship that lasts generations.' },
-              { num: '03', title: 'Timeless Silhouette Design', text: 'Clean lines. Confident presence. A silhouette refined through 200+ design iterations to achieve effortless wearability.' },
-              { num: '04', title: 'All-Day Comfort Engineering', text: "Designed to be worn from sunrise to after-dark events. Lightweight yet substantial — you'll forget you're wearing it until someone asks where you got it." },
-              { num: '05', title: 'Exclusive Limited Collections', text: 'Each season brings a new chapter. Our limited drops ensure you wear something truly rare — an object of desire, not mass production.' },
-            ].map((item, i) => (
-              <div className={`spec-item${i === 0 ? ' active' : ''}`} data-img={i} key={i}>
-                <div className="spec-number">{item.num}</div>
-                <h3>{item.title}</h3>
-                <p>{item.text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <SpecsReveal />
 
       <Testimonials3D />
 
