@@ -31,6 +31,37 @@ const COLLECTION_IMAGES = [
   'https://framerusercontent.com/images/5ILRvlYXf72kHSVHqpa3snGzjU.jpg',
 ];
 
+/* ── SVG Icons ───────────────────────────────────────────────── */
+const IconX = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+  </svg>
+);
+
+const IconInstagram = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <circle cx="12" cy="12" r="4" />
+    <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+const IconLinkedIn = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z" />
+    <rect x="2" y="9" width="4" height="12" />
+    <circle cx="4" cy="4" r="2" />
+  </svg>
+);
+
+const IconYouTube = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.6.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.94 1.96C5.12 20 12 20 12 20s6.88 0 8.6-.46a2.78 2.78 0 001.94-1.96A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+    <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="currentColor" stroke="none" />
+  </svg>
+);
+
+/* ── Component ───────────────────────────────────────────────── */
 export default function LegacySections() {
   return (
     <>
@@ -94,10 +125,10 @@ export default function LegacySections() {
           </div>
           <div className="specs-list">
             {[
-              { num: '01', title: 'Style That Bends, Not Breaks', text: 'Flex it at the gym, flaunt it at dinner — this bracelet\'s got moves. Crafted for those who live without limits and dress without apology.' },
+              { num: '01', title: 'Style That Bends, Not Breaks', text: "Flex it at the gym, flaunt it at dinner — this bracelet's got moves. Crafted for those who live without limits and dress without apology." },
               { num: '02', title: 'Premium Material Fusion', text: 'A carefully engineered blend of luxury metals and sustainable composites. Every piece tells a story of craftsmanship that lasts generations.' },
               { num: '03', title: 'Timeless Silhouette Design', text: 'Clean lines. Confident presence. A silhouette refined through 200+ design iterations to achieve effortless wearability.' },
-              { num: '04', title: 'All-Day Comfort Engineering', text: 'Designed to be worn from sunrise to after-dark events. Lightweight yet substantial — you\'ll forget you\'re wearing it until someone asks where you got it.' },
+              { num: '04', title: 'All-Day Comfort Engineering', text: "Designed to be worn from sunrise to after-dark events. Lightweight yet substantial — you'll forget you're wearing it until someone asks where you got it." },
               { num: '05', title: 'Exclusive Limited Collections', text: 'Each season brings a new chapter. Our limited drops ensure you wear something truly rare — an object of desire, not mass production.' },
             ].map((item, i) => (
               <div className={`spec-item${i === 0 ? ' active' : ''}`} data-img={i} key={i}>
@@ -187,9 +218,13 @@ export default function LegacySections() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
+      {/* ══════════════════════════════════════════
+          ── FOOTER ──
+      ══════════════════════════════════════════ */}
       <footer id="footer">
-        <div className="footer-grid">
+
+        <div className="footer-body">
+          {/* Nav columns */}
           <div className="footer-col">
             <h4>Pages</h4>
             <a href="#hero-door-wrapper">Home</a>
@@ -207,23 +242,168 @@ export default function LegacySections() {
           <div className="footer-col">
             <h4>Social media</h4>
             <div className="footer-social">
-              <div className="social-btn">
-                <svg viewBox="0 0 32 32"><path d="M21.751 7L24.818 7L18.118 14.658L26 25.079L19.828 25.079L14.995 18.759L9.463 25.079L6.395 25.079L13.561 16.888L6 7L12.328 7L16.697 12.777Z M20.675 23.243L22.375 23.243L11.405 8.74L9.581 8.74Z"/></svg>
-              </div>
-              <div className="social-btn">
-                <svg viewBox="0 0 20 20"><path d="M6.666 10.006C6.663 8.165 8.153 6.67 9.993 6.667C11.834 6.663 13.33 8.152 13.333 9.994C13.337 11.834 11.847 13.329 10.006 13.333C8.166 13.337 6.67 11.847 6.666 10.006ZM4.865 10.01C4.871 12.846 7.174 15.14 10.01 15.134C12.845 15.129 15.14 12.826 15.135 9.99C15.129 7.155 12.826 4.86 9.99 4.865C7.154 4.871 4.86 7.174 4.865 10.01ZM14.127 4.655C14.129 5.317 14.667 5.853 15.329 5.852C15.992 5.85 16.528 5.312 16.527 4.65C16.526 3.988 15.987 3.451 15.325 3.453C14.662 3.454 14.126 3.992 14.127 4.655ZM5.858 0.069C4.794 0.119 4.068 0.29 3.433 0.539C2.775 0.795 2.218 1.138 1.664 1.695C1.109 2.252 0.768 2.81 0.513 3.468C0.267 4.105 0.1 4.832 0.053 5.897C0.007 6.963-0.004 7.304 0.001 10.019C0.006 12.734 0.018 13.075 0.069 14.142C0.12 15.206 0.29 15.932 0.539 16.568C0.795 17.225 1.138 17.782 1.695 18.337C2.252 18.891 2.811 19.232 3.469 19.487C4.105 19.732 4.832 19.9 5.897 19.947C6.963 19.994 7.304 20.004 10.019 19.999C12.735 19.994 13.075 19.982 14.142 19.931C15.206 19.88 15.932 19.71 16.568 19.462C17.225 19.204 17.782 18.862 18.337 18.305C18.891 17.748 19.232 17.19 19.486 16.531C19.732 15.895 19.9 15.168 19.946 14.104C19.993 13.037 20.004 12.696 19.999 9.981C19.994 7.265 19.981 6.925 19.931 5.859C19.88 4.794 19.71 4.068 19.461 3.432C19.204 2.775 18.862 2.218 18.305 1.663C17.748 1.109 17.19 0.767 16.531 0.514C15.895 0.268 15.168 0.1 14.104 0.054C13.037 0.006 12.696-0.004 9.981 0.001C7.266 0.006 6.925 0.018 5.858 0.069Z"/></svg>
-              </div>
-              <div className="social-btn">
-                <svg viewBox="0 0 32 32"><path d="M13.119 12.655L16.771 12.655L16.771 14.527L16.824 14.527C17.333 13.614 18.576 12.655 20.431 12.655C24.287 12.655 25 15.054 25 18.176L25 24.776L21.192 24.776L21.191 18.898C21.191 17.554 21.164 15.824 19.211 15.824C17.228 15.824 16.924 17.287 16.924 18.801L16.924 24.776L13.119 24.776ZM10.961 8.98C10.961 10.073 10.074 10.961 8.981 10.961C7.887 10.961 7 10.073 7 8.98C7 7.887 7.887 7 8.981 7C10.074 7 10.961 7.887 10.961 8.98ZM7 12.655L10.961 12.655L10.961 24.776L7 24.776Z"/></svg>
-              </div>
+              <a href="#" className="footer-social-icon" aria-label="X / Twitter">
+                <IconX />
+              </a>
+              <a href="#" className="footer-social-icon" aria-label="Instagram">
+                <IconInstagram />
+              </a>
+              <a href="#" className="footer-social-icon" aria-label="LinkedIn">
+                <IconLinkedIn />
+              </a>
+              <a href="#" className="footer-social-icon" aria-label="YouTube">
+                <IconYouTube />
+              </a>
             </div>
           </div>
         </div>
+
+        {/* Bottom bar */}
         <div className="footer-bottom">
-          <p>© Copyright 2024. All rights Reserved</p>
-          <div className="footer-logo">Elyx</div>
+          <p className="footer-copy">© Copyright 2024. All rights Reserved</p>
+          <a href="#" className="footer-made-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
+              <path d="M0 0h16v8H8v8l-8-8z" fill="#000" />
+            </svg>
+            <span>Made in Framer</span>
+          </a>
         </div>
+
       </footer>
+
+      {/* ── FOOTER STYLES ── */}
+      <style>{`
+        /* ── reset for footer links ── */
+        #footer * { box-sizing: border-box; }
+
+        #footer {
+          background: #000;
+          color: #fff;
+          font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          overflow: hidden;
+          padding-top: 40px;
+        }
+
+        /* ── Body ── */
+        .footer-body {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          padding: 60px 64px 80px;
+          gap: 40px;
+        }
+
+        .footer-col {
+          display: flex;
+          flex-direction: column;
+          gap: 0;
+        }
+        
+        /* Specific column alignments if needed */
+        .footer-col:nth-child(2) {
+          margin-right: auto;
+          margin-left: 20%;
+        }
+
+        .footer-col h4 {
+          font-size: 1.4rem;
+          font-weight: 500;
+          color: #fff;
+          letter-spacing: -0.02em;
+          margin: 0 0 24px 0;
+        }
+        .footer-col a {
+          display: block;
+          color: #888;
+          text-decoration: none;
+          font-size: 0.95rem;
+          margin-bottom: 16px;
+          transition: color 0.2s ease;
+        }
+        .footer-col a:hover {
+          color: #fff;
+        }
+
+        /* Social icons */
+        .footer-social {
+          display: flex;
+          gap: 16px;
+          align-items: center;
+        }
+        .footer-social-icon {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #fff;
+          text-decoration: none;
+          transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .footer-social-icon:hover {
+          color: #ccc;
+          transform: translateY(-2px);
+        }
+        .footer-social-icon svg {
+          width: 18px;
+          height: 18px;
+        }
+
+        /* ── Bottom bar ── */
+        .footer-bottom {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 24px 0;
+          margin: 0 64px;
+          border-top: 1px solid #222;
+        }
+        .footer-copy {
+          font-size: 0.75rem;
+          color: #666;
+          margin: 0;
+        }
+        .footer-made-button {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: #fff;
+          color: #000;
+          padding: 8px 12px;
+          border-radius: 4px;
+          text-decoration: none;
+          font-size: 0.8rem;
+          font-weight: 600;
+          transition: opacity 0.2s ease;
+        }
+        .footer-made-button:hover {
+          opacity: 0.9;
+        }
+        .footer-made-button span {
+          color: #000 !important;
+          margin: 0 !important;
+        }
+
+        /* ── Responsive ── */
+        @media (max-width: 900px) {
+          .footer-body {
+            flex-direction: column;
+            padding: 40px 32px 60px;
+            gap: 48px;
+          }
+          .footer-col:nth-child(2) {
+            margin-right: 0;
+            margin-left: 0;
+          }
+          .footer-bottom {
+            margin: 0 32px;
+            padding: 20px 0;
+          }
+        }
+
+        @media (max-width: 540px) {
+          .footer-body { padding: 40px 24px 60px; }
+          .footer-bottom { flex-direction: column; gap: 16px; margin: 0 24px; align-items: flex-start; }
+        }
+      `}</style>
     </>
   );
 }
