@@ -3,12 +3,12 @@ import AboutReveal from './AboutReveal';
 import Testimonials3D from './Testimonials3D';
 import SpecsReveal from './SpecsReveal';
 
-const COLLECTION_IMAGES = [
-  'https://framerusercontent.com/images/X6THCszcCEdeHgCU7Anih2mKvc.webp',
-  'https://framerusercontent.com/images/ILHR7EySa2gWrLnzOIQLcxbmLkQ.webp',
-  'https://framerusercontent.com/images/WMQWY9o35uYZ4CuYH4Eto5lmIKc.webp',
-  'https://framerusercontent.com/images/6fcGt9GY2H5QXZ8kA7Wl3HDagcc.webp',
-  'https://framerusercontent.com/images/5ILRvlYXf72kHSVHqpa3snGzjU.jpg',
+const COLLECTION_ITEMS = [
+  { src: 'https://framerusercontent.com/images/X6THCszcCEdeHgCU7Anih2mKvc.webp', name: 'Classic Elegance', tag: 'Signature Series' },
+  { src: 'https://framerusercontent.com/images/ILHR7EySa2gWrLnzOIQLcxbmLkQ.webp', name: 'Rose Gold', tag: 'Premium Line' },
+  { src: 'https://framerusercontent.com/images/WMQWY9o35uYZ4CuYH4Eto5lmIKc.webp', name: 'Diamond Heart', tag: 'Limited Edition' },
+  { src: 'https://framerusercontent.com/images/6fcGt9GY2H5QXZ8kA7Wl3HDagcc.webp', name: 'Pulse Wave', tag: 'Avant-Garde' },
+  { src: 'https://framerusercontent.com/images/5ILRvlYXf72kHSVHqpa3snGzjU.jpg', name: 'Bold Heritage', tag: 'Iconic Collection' },
 ];
 
 export default function LegacySections() {
@@ -44,6 +44,10 @@ export default function LegacySections() {
     <>
       {/* ── TICKER ── */}
       <section id="ticker">
+        <div className="ticker-heading fade-in">
+          <span className="ticker-eyebrow">Crafted for Every Moment</span>
+          <h2 className="ticker-title">Life in Elyx</h2>
+        </div>
         <div className="ticker-track">
           {[
             { src: 'https://framerusercontent.com/images/hWgP8L6AlMCN6WPs9Hq5t0DM8.jpg', label: 'Restaurant' },
@@ -71,11 +75,19 @@ export default function LegacySections() {
 
       {/* ── COLLECTION ── */}
       <section id="collection">
-        <div className="collection-label fade-in">Collection</div>
-        <div className="collection-cards">
-          {COLLECTION_IMAGES.map((src, i) => (
-            <div className="collection-card fade-in" key={i}>
-              <img src={src} alt={`Collection ${i + 1}`} loading="lazy" />
+        <div className="collection-header fade-in">
+          <span className="collection-eyebrow">Explore the Range</span>
+          <h2 className="collection-title">Collection</h2>
+          <p className="collection-subtitle">Each piece a rare object of desire — never mass-produced.</p>
+        </div>
+        <div className="collection-grid">
+          {COLLECTION_ITEMS.map((item, i) => (
+            <div className={`collection-item fade-in collection-item-${i + 1}`} key={i}>
+              <img src={item.src} alt={item.name} loading="lazy" />
+              <div className="collection-item-info">
+                <span className="collection-item-tag">{item.tag}</span>
+                <span className="collection-item-name">{item.name}</span>
+              </div>
             </div>
           ))}
         </div>

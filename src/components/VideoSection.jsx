@@ -1,10 +1,9 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 
 export default function VideoSection() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
-  const [duration, setDuration] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -12,44 +11,41 @@ export default function VideoSection() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 80,
-    damping: 30,
+    stiffness: 200,
+    damping: 40,
     restDelta: 0.001
   });
 
+  // Play/pause video based on visibility
   useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.pause();
-    }
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
   }, []);
 
-  const onLoadedMetadata = () => {
-    if (videoRef.current) {
-      setDuration(videoRef.current.duration);
-    }
-  };
+  // Phase 0: Welcome heading (entry)
+  const opacity0 = useTransform(smoothProgress, [0, 0.08, 0.22, 0.28], [0, 1, 1, 0]);
+  const y0 = useTransform(smoothProgress, [0, 0.08, 0.22, 0.28], [50, 0, 0, -50]);
 
-  // Sync video time with scroll progress
-  useEffect(() => {
-    const unsubscribe = smoothProgress.on("change", (latest) => {
-      if (videoRef.current && duration) {
-        // We use a small buffer to avoid flickering at the very end
-        const time = latest * (duration - 0.1);
-        videoRef.current.currentTime = Math.max(0, time);
-      }
-    });
-    return () => unsubscribe();
-  }, [duration, smoothProgress]);
+  // Phase 1: Philosophy
+  const opacity1 = useTransform(smoothProgress, [0.35, 0.45, 0.6, 0.66], [0, 1, 1, 0]);
+  const y1 = useTransform(smoothProgress, [0.35, 0.45, 0.6, 0.66], [40, 0, 0, -40]);
 
-  // Narrative transitions mapped to the new macro video
-  const opacity1 = useTransform(smoothProgress, [0.05, 0.15, 0.3, 0.35], [0, 1, 1, 0]);
-  const y1 = useTransform(smoothProgress, [0.05, 0.15, 0.3, 0.35], [40, 0, 0, -40]);
-
-  const opacity2 = useTransform(smoothProgress, [0.45, 0.55, 0.7, 0.75], [0, 1, 1, 0]);
-  const y2 = useTransform(smoothProgress, [0.45, 0.55, 0.7, 0.75], [40, 0, 0, -40]);
-
-  const opacity3 = useTransform(smoothProgress, [0.85, 0.95, 1], [0, 1, 1]);
-  const y3 = useTransform(smoothProgress, [0.85, 0.95, 1], [40, 0, 0]);
+  // Phase 2: CTA
+  const opacity2 = useTransform(smoothProgress, [0.78, 0.88, 1], [0, 1, 1]);
+  const y2 = useTransform(smoothProgress, [0.78, 0.88, 1], [40, 0, 0]);
 
   return (
     <section id="video-scroll-container" ref={containerRef} style={{ height: '500vh', position: 'relative' }}>
@@ -59,30 +55,30 @@ export default function VideoSection() {
           className="scrub-video"
           src="https://framerusercontent.com/assets/3QMNUX5He3ipAUH3zcoszrLTgM.mp4"
           muted
+          loop
           playsInline
-          onLoadedMetadata={onLoadedMetadata}
           preload="auto"
         />
         <div className="video-overlay" />
 
         <div className="scroll-content-overlay">
-          {/* Phase 1: Welcome */}
-          <motion.div className="narrative-block" style={{ opacity: opacity1, y: y1 }}>
-            <span className="video-eyebrow">The World of Elyx</span>
-            <h2 className="video-headline">Luxury & Comfort<br />Redefined</h2>
+          {/* Phase 0: Welcome */}
+          <motion.div className="narrative-block" style={{ opacity: opacity0, y: y0 }}>
+            <span className="video-eyebrow">Welcome to The World of Elyx</span>
+            <h2 className="video-headline">Luxury &amp; Comfort<br />Redefined</h2>
           </motion.div>
 
-          {/* Phase 2: Philosophy */}
-          <motion.div className="narrative-block" style={{ opacity: opacity2, y: y2 }}>
+          {/* Phase 1: Philosophy */}
+          <motion.div className="narrative-block" style={{ opacity: opacity1, y: y1 }}>
             <h2 className="video-headline small">Redefine Your Style</h2>
             <p className="video-tagline large">
-              Wearing Elyx Is An Experience Like No Other —<br />
-              A fusion of premium design and artistry.
+              Wearing Elyx is an experience like no other —<br />
+              a fusion of premium design and artistry.
             </p>
           </motion.div>
 
-          {/* Phase 3: Final CTA */}
-          <motion.div className="narrative-block" style={{ opacity: opacity3, y: y3 }}>
+          {/* Phase 2: CTA */}
+          <motion.div className="narrative-block" style={{ opacity: opacity2, y: y2 }}>
             <span className="video-eyebrow">Discover Excellence</span>
             <h2 className="video-headline smaller">A Fusion of Luxury</h2>
             <div className="video-ctas">
@@ -116,12 +112,11 @@ export default function VideoSection() {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transform: scale(1.05); /* Slight scale to hide edge artifacts during scrub */
         }
         .video-overlay {
           position: absolute;
           inset: 0;
-          background: radial-gradient(circle at center, transparent 0%, rgba(0,0,0,0.6) 100%);
+          background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.55) 100%);
           z-index: 1;
         }
         .scroll-content-overlay {
@@ -172,12 +167,12 @@ export default function VideoSection() {
         }
         .video-tagline.large {
           font-family: 'Satoshi', sans-serif;
-          font-size: clamp(1.2rem, 2.5vw, 2rem);
+          font-size: clamp(1.1rem, 2vw, 1.6rem);
           font-weight: 300;
-          line-height: 1.5;
+          line-height: 1.6;
           letter-spacing: -0.01em;
           color: rgba(255,255,255,0.8);
-          max-width: 700px;
+          max-width: 650px;
         }
         .video-ctas {
           display: flex;
