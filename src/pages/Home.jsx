@@ -1,9 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import HeroDoor from '../components/HeroDoor';
 import VideoSection from '../components/VideoSection';
 import LegacySections from '../components/LegacySections';
+import EntryAnimation from '../components/EntryAnimation';
 
 export default function Home() {
+  const [entryDone, setEntryDone] = useState(
+    () => typeof sessionStorage !== 'undefined' && !!sessionStorage.getItem('elyx_entry_played')
+  );
+
   useEffect(() => {
     const cleanups = [];
 
@@ -69,10 +74,13 @@ export default function Home() {
   }, []);
 
   return (
-    <main>
-      <HeroDoor />
-      <VideoSection />
-      <LegacySections />
-    </main>
+    <>
+      <EntryAnimation onComplete={() => setEntryDone(true)} />
+      <main style={{ opacity: entryDone ? 1 : 0, transition: 'opacity 0.6s ease' }}>
+        <HeroDoor />
+        <VideoSection />
+        <LegacySections />
+      </main>
+    </>
   );
 }

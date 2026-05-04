@@ -124,6 +124,13 @@ const FRAMES = [
 
 const PARTICLE_COUNT = 280;
 
+const NARRATIVES = [
+  { range: [0,   25],  label: '925 Sterling Silver',            sub: 'Pure luxury, refined to its essence' },
+  { range: [26,  55],  label: 'Crafted in 72 Hours',            sub: 'Each piece undergoes artisan refinement' },
+  { range: [56,  85],  label: 'Swiss Rubber. Zero Compromise.', sub: 'Engineered for every environment' },
+  { range: [86, 999],  label: 'Your Signature Piece',           sub: 'Never mass-produced. Always rare.' },
+];
+
 function makeParticle(i) {
   const isOrbital = i < 180;
   const angle = Math.random() * Math.PI * 2;
@@ -156,6 +163,11 @@ export default function HeroDoor() {
   const smoothRef       = useRef({ nx: 0, ny: 0, x: 0, y: 0 });
   const particlesRef    = useRef([]);
   const rafRef          = useRef(null);
+  const narrativeRef    = useRef(null);
+  const narrLabelRef    = useRef(null);
+  const narrSubRef      = useRef(null);
+  const lastNarrIdx     = useRef(-1);
+  const progressFillRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -347,14 +359,34 @@ export default function HeroDoor() {
     return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
-  // ── Scroll → frame ──
+  // ── Scroll → frame + progress + narrative ──
   useEffect(() => {
     return scrollYProgress.on('change', (v) => {
       const idx     = Math.round(v * (FRAMES.length - 1));
       const clamped = Math.max(0, Math.min(FRAMES.length - 1, idx));
+
       if (clamped !== frameRef.current) {
         frameRef.current = clamped;
         renderFrame(clamped);
+      }
+
+      // Progress bar
+      if (progressFillRef.current) {
+        progressFillRef.current.style.height = `${v * 100}%`;
+      }
+
+      // Narrative copy
+      const ni = NARRATIVES.findIndex(n => clamped >= n.range[0] && clamped <= n.range[1]);
+      if (ni !== lastNarrIdx.current) {
+        lastNarrIdx.current = ni;
+        const el = narrativeRef.current;
+        if (!el) return;
+        el.classList.remove('narr-visible');
+        setTimeout(() => {
+          if (narrLabelRef.current) narrLabelRef.current.textContent = ni >= 0 ? NARRATIVES[ni].label : '';
+          if (narrSubRef.current)   narrSubRef.current.textContent   = ni >= 0 ? NARRATIVES[ni].sub   : '';
+          if (ni >= 0) el.classList.add('narr-visible');
+        }, 180);
       }
     });
   }, [renderFrame, scrollYProgress]);
@@ -380,6 +412,17 @@ export default function HeroDoor() {
           <span className="hero-float-eyebrow">The World of Elyx</span>
           <h1 className="hero-float-headline">Luxury<br />Defined</h1>
           <p className="hero-float-sub">Scroll to Explore</p>
+        </div>
+
+        {/* Layer 5: scroll-triggered narrative copy */}
+        <div ref={narrativeRef} className="hero-narrative">
+          <span ref={narrLabelRef} className="narr-label">925 Sterling Silver</span>
+          <span ref={narrSubRef}   className="narr-sub">Pure luxury, refined to its essence</span>
+        </div>
+
+        {/* Layer 6: vertical scroll progress line */}
+        <div className="hero-progress-track">
+          <div ref={progressFillRef} className="hero-progress-fill" />
         </div>
 
       </div>
