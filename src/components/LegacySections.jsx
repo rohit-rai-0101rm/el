@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 const INTRO_ITEMS = [
   {
@@ -63,6 +63,39 @@ const IconYouTube = () => (
 
 /* ── Component ───────────────────────────────────────────────── */
 export default function LegacySections() {
+  useEffect(() => {
+    const magneticElements = document.querySelectorAll('.magnetic');
+    
+    const moveMagnetic = (e) => {
+      const el = e.currentTarget;
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${x * 0.4}px, ${y * 0.4}px)`;
+    };
+    
+    const resetMagnetic = (e) => {
+      e.currentTarget.style.transform = 'translate(0px, 0px)';
+    };
+
+    magneticElements.forEach(el => {
+      el.addEventListener('mousemove', moveMagnetic);
+      el.addEventListener('mouseleave', resetMagnetic);
+    });
+
+    return () => {
+      magneticElements.forEach(el => {
+        el.removeEventListener('mousemove', moveMagnetic);
+        el.removeEventListener('mouseleave', resetMagnetic);
+      });
+    };
+  }, []);
+
+  const scrollToTop = (e) => {
+    e.preventDefault();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <>
       {/* ── INTRO ── */}
@@ -218,192 +251,6 @@ export default function LegacySections() {
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════
-          ── FOOTER ──
-      ══════════════════════════════════════════ */}
-      <footer id="footer">
-
-        <div className="footer-body">
-          {/* Nav columns */}
-          <div className="footer-col">
-            <h4>Pages</h4>
-            <a href="#hero-door-wrapper">Home</a>
-            <a href="https://eylx.godaddysites.com/" target="_blank" rel="noopener noreferrer">Collection</a>
-            <a href="#">FAQ</a>
-            <a href="#">About Us</a>
-            <a href="#">Contact Us</a>
-          </div>
-          <div className="footer-col">
-            <h4>Support</h4>
-            <a href="#">Terms of service</a>
-            <a href="#">Privacy policy</a>
-            <a href="#">Refund policy</a>
-          </div>
-          <div className="footer-col">
-            <h4>Social media</h4>
-            <div className="footer-social">
-              <a href="#" className="footer-social-icon" aria-label="X / Twitter">
-                <IconX />
-              </a>
-              <a href="#" className="footer-social-icon" aria-label="Instagram">
-                <IconInstagram />
-              </a>
-              <a href="#" className="footer-social-icon" aria-label="LinkedIn">
-                <IconLinkedIn />
-              </a>
-              <a href="#" className="footer-social-icon" aria-label="YouTube">
-                <IconYouTube />
-              </a>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom bar */}
-        <div className="footer-bottom">
-          <p className="footer-copy">© Copyright 2024. All rights Reserved</p>
-          <a href="#" className="footer-made-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 16 16" fill="none">
-              <path d="M0 0h16v8H8v8l-8-8z" fill="#000" />
-            </svg>
-            <span>Made in Framer</span>
-          </a>
-        </div>
-
-      </footer>
-
-      {/* ── FOOTER STYLES ── */}
-      <style>{`
-        /* ── reset for footer links ── */
-        #footer * { box-sizing: border-box; }
-
-        #footer {
-          background: #000;
-          color: #fff;
-          font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          overflow: hidden;
-          padding-top: 40px;
-        }
-
-        /* ── Body ── */
-        .footer-body {
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-start;
-          padding: 60px 64px 80px;
-          gap: 40px;
-        }
-
-        .footer-col {
-          display: flex;
-          flex-direction: column;
-          gap: 0;
-        }
-        
-        /* Specific column alignments if needed */
-        .footer-col:nth-child(2) {
-          margin-right: auto;
-          margin-left: 20%;
-        }
-
-        .footer-col h4 {
-          font-size: 1.4rem;
-          font-weight: 500;
-          color: #fff;
-          letter-spacing: -0.02em;
-          margin: 0 0 24px 0;
-        }
-        .footer-col a {
-          display: block;
-          color: #888;
-          text-decoration: none;
-          font-size: 0.95rem;
-          margin-bottom: 16px;
-          transition: color 0.2s ease;
-        }
-        .footer-col a:hover {
-          color: #fff;
-        }
-
-        /* Social icons */
-        .footer-social {
-          display: flex;
-          gap: 16px;
-          align-items: center;
-        }
-        .footer-social-icon {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          color: #fff;
-          text-decoration: none;
-          transition: color 0.2s ease, transform 0.2s ease;
-        }
-        .footer-social-icon:hover {
-          color: #ccc;
-          transform: translateY(-2px);
-        }
-        .footer-social-icon svg {
-          width: 18px;
-          height: 18px;
-        }
-
-        /* ── Bottom bar ── */
-        .footer-bottom {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 24px 0;
-          margin: 0 64px;
-          border-top: 1px solid #222;
-        }
-        .footer-copy {
-          font-size: 0.75rem;
-          color: #666;
-          margin: 0;
-        }
-        .footer-made-button {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          background: #fff;
-          color: #000;
-          padding: 8px 12px;
-          border-radius: 4px;
-          text-decoration: none;
-          font-size: 0.8rem;
-          font-weight: 600;
-          transition: opacity 0.2s ease;
-        }
-        .footer-made-button:hover {
-          opacity: 0.9;
-        }
-        .footer-made-button span {
-          color: #000 !important;
-          margin: 0 !important;
-        }
-
-        /* ── Responsive ── */
-        @media (max-width: 900px) {
-          .footer-body {
-            flex-direction: column;
-            padding: 40px 32px 60px;
-            gap: 48px;
-          }
-          .footer-col:nth-child(2) {
-            margin-right: 0;
-            margin-left: 0;
-          }
-          .footer-bottom {
-            margin: 0 32px;
-            padding: 20px 0;
-          }
-        }
-
-        @media (max-width: 540px) {
-          .footer-body { padding: 40px 24px 60px; }
-          .footer-bottom { flex-direction: column; gap: 16px; margin: 0 24px; align-items: flex-start; }
-        }
-      `}</style>
     </>
   );
 }

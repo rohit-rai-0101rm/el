@@ -1234,6 +1234,72 @@ footer {
   object-fit: cover;
 }
 
+/* ─── POLICY PAGES ─── */
+.policy-page {
+  background: var(--black);
+  color: #b3b3b3;
+  min-height: 100vh;
+  padding: 160px 24px 100px;
+}
+.policy-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.policy-container h1 {
+  font-family: 'Clash Display', sans-serif;
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  font-weight: 500;
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+.policy-intro {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 64px;
+  color: #999;
+}
+.policy-container section {
+  margin-bottom: 48px;
+}
+.policy-container h2 {
+  font-family: 'Clash Display', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--white);
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+.policy-container p, .policy-container ul {
+  font-family: 'Satoshi', sans-serif;
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.policy-container ul {
+  padding-left: 20px;
+  list-style: disc;
+}
+.policy-container li {
+  margin-bottom: 8px;
+}
+.policy-container strong {
+  color: var(--white);
+  font-weight: 500;
+}
+.policy-container a {
+  color: var(--white);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.3s;
+}
+.policy-container a:hover {
+  color: var(--accent);
+}
+
 /* ─── RESPONSIVE ─── */
 @media (max-width: 768px) {
   nav { padding: 16px 20px; }
