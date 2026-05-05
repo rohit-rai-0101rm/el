@@ -9,8 +9,8 @@ export default function Navbar() {
         <li><a href="/#intro">Collection</a></li>
         <li><a href="/#specs">Specs</a></li>
         <li><a href="/#reviews">Reviews</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="#footer">Contact</a></li>
+        <li><Link to="/about">About</Link></li>
+        <li><Link to="/contact">Contact</Link></li>
       </ul>
       <a
         href="https://eylx.godaddysites.com/"
